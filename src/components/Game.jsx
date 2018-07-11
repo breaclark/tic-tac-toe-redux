@@ -1,21 +1,21 @@
-import React from 'react'
+import React from 'react';
 import Board from './Board';
 import Square from './Square';
+import { connect } from 'react-redux';
 
-class Game extends React.Component {
-  render() {
-    return (
-      <div className="game">
-        <div className="game-board">
-          <Board />
-        </div>
-        <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
-        </div>
+function Game(props){
+  return (
+    <div className="game">
+      <div className="game-board">
+        <Board xIsNext={props.xIsNext}
+        squares={props.squares}/>
       </div>
-    )
-  }
+      <div className="game-info">
+        <div>{/* status */}</div>
+        <ol>{/* TODO */}</ol>
+      </div>
+    </div>
+  );
 }
 
-export default Game
+export default connect()(Game);

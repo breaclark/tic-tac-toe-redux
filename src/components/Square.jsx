@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 // class Square extends React.Component {
 //   render() {
@@ -23,4 +23,4 @@ function Square(props){
 }
 //we change this.props to just props because we don't need to worry about 'this' in a functional component.
 
-export default Square
+export default Square;
