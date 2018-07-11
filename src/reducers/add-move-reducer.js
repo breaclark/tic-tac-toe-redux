@@ -1,11 +1,11 @@
 import c from './../constants';
 
-export default (state = Array(9).fill(null), action) => {
+export default (state = [Array(9).fill(null)], action) => {
   let newState;
-  const { squares } = action;
   switch(action.type) {
     case c.ADD_MOVE:
-      newState = squares;
+      const { squares } = action;
+      newState = state.concat([squares]);
       return newState;
     default: {
       return state;

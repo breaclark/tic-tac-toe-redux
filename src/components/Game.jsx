@@ -7,8 +7,11 @@ function Game(props){
   return (
     <div className="game">
       <div className="game-board">
-        <Board xIsNext={props.xIsNext}
-          squares={props.squares}/>
+        <Board
+          xIsNext={props.xIsNext}
+          history={props.history}
+          stepNumber={props.stepNumber}
+          />
       </div>
       <div className="game-info">
         <div>{/* status */}</div>
@@ -20,7 +23,8 @@ function Game(props){
 
 Game.propTypes= {
   xIsNext: PropTypes.bool,
-  squares: PropTypes.array
+  history: PropTypes.array,
+  stepNumber: PropTypes.number
 };
 
 export default connect()(Game);

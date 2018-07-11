@@ -13,8 +13,11 @@ class App extends React.Component{
   render(){
     return(
       <div>
-        <Game xIsNext={this.props.xIsNext}
-          squares={this.props.squares}/>
+        <Game
+          xIsNext={this.props.xIsNext}
+          history={this.props.history}
+          stepNumber={this.props.stepNumber}
+        />
       </div>
     );
   }
@@ -22,13 +25,15 @@ class App extends React.Component{
 
 App.propTypes= {
   xIsNext: PropTypes.bool,
-  squares: PropTypes.array
+  history: PropTypes.array,
+  stepNumber: PropTypes.number
 };
 
 const mapStateToProps = state => {
   return {
     xIsNext: state.xIsNext,
-    squares: state.squares
+    history: state.history,
+    stepNumber: state.stepNumber
   };
 };
 
