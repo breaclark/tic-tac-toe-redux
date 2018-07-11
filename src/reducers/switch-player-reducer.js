@@ -5,9 +5,7 @@ export default (state = true, action) => {
   const { xIsNext } = action;
   switch(action.type) {
     case c.SWITCH_PLAYER:
-      newState = Object.assign({}, state, {
-        xIsNext: xIsNext
-      });
+      newState = xIsNext;
       return newState;
       break;
     default: {

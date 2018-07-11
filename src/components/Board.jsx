@@ -7,11 +7,23 @@ function Board(props){
 
   //on load, the constructor creates a blank board where the value of all 9 squares is null
 
-  function handleClick(i){
+  function handleClick(){
       const { dispatch } = props;
       const action = {
         type: c.SWITCH_PLAYER,
         xIsNext: !props.xIsNext
+      };
+      dispatch(action);
+  }
+
+  function handleClickToo(i){
+    console.log(props.squares);
+      const { dispatch } = props;
+      const squaresCopy = JSON.parse(JSON.stringify(props.squares));
+      squaresCopy[i] = props.xIsNext ? 'X' : 'O';
+      const action = {
+        type: c.ADD_MOVE,
+        squares: squaresCopy
       };
       dispatch(action);
   }
@@ -32,7 +44,7 @@ function Board(props){
   function renderSquare(i) {
     return (<Square
       value={props.squares[i]}
-      onClick={()=> handleClick(i)}
+      onClick={()=> {handleClick(); handleClickToo(i);}}
     />
     );
   }
