@@ -13,8 +13,20 @@ function Board(props){
     };
     dispatch(action);
   }
+  function truncateHistory(){
+    const { dispatch } = props;
+    const action = {
+      type: c.TRUNCATE_HISTORY,
+      historyStep: props.stepNumber
+    };
+    dispatch(action);
+  }
+
 
   function addMove(i){
+    if(props.stepNumber != props.history.length + 1){
+      truncateHistory();
+    }
     const { dispatch } = props;
     const squaresCopy = JSON.parse(JSON.stringify(props.history[props.stepNumber]));
     squaresCopy[i] = props.xIsNext ? 'X' : 'O';
@@ -33,6 +45,16 @@ function Board(props){
     };
     dispatch(action);
   }
+
+  function jumpTo(step) {
+    const { dispatch } = props;
+    const action = {
+      type: c.SELECT_STEP,
+      stepNumber: step
+    };
+    dispatch(action);
+  }
+
 
   function calculateWinner() {
     const lines = [
@@ -62,6 +84,20 @@ function Board(props){
     status = 'Next player: ' + (props.xIsNext ? 'X' : 'O');
   }
 
+  const history = props.history;
+  const current = history[props.stepNumber];
+  const moves = history.map((step, move) => {
+    const desc = move ?
+      'Go to move #' + move :
+      'Go to game start';
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>{desc}</button>
+      </li>
+    );
+  });
+
+
   //handleClick(i) is a method that copies the board array with the specific index i changed on click to X. This is done to maintain immutability.
 
   function handleClick(i){
@@ -83,9 +119,11 @@ function Board(props){
     );
   }
 
+
   return (
     <div>
       <div className="status">{status}</div>
+
       <div className="board-row">
         {renderSquare(0)}
         {renderSquare(1)}
@@ -101,6 +139,7 @@ function Board(props){
         {renderSquare(7)}
         {renderSquare(8)}
       </div>
+      <ol>{moves}</ol>
     </div>
   );
 }
