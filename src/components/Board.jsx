@@ -2,53 +2,29 @@ import React from 'react';
 import Square from './Square';
 import { connect } from 'react-redux';
 import c from './../constants';
+import PropTypes from 'prop-types';
 
 function Board(props){
 
-  //on load, the constructor creates a blank board where the value of all 9 squares is null
-
-  function handleClick(){
-      const { dispatch } = props;
-      const action = {
-        type: c.SWITCH_PLAYER,
-        xIsNext: !props.xIsNext
-      };
-      dispatch(action);
+  function switchPlayer(){
+    const { dispatch } = props;
+    const action = {
+      type: c.SWITCH_PLAYER,
+      xIsNext: !props.xIsNext
+    };
+    dispatch(action);
   }
 
-  function handleClickToo(i){
-    console.log(props.squares);
-      const { dispatch } = props;
-      const squaresCopy = JSON.parse(JSON.stringify(props.squares));
-      squaresCopy[i] = props.xIsNext ? 'X' : 'O';
-      const action = {
-        type: c.ADD_MOVE,
-        squares: squaresCopy
-      };
-      dispatch(action);
+  function addMove(i){
+    const { dispatch } = props;
+    const squaresCopy = JSON.parse(JSON.stringify(props.squares));
+    squaresCopy[i] = props.xIsNext ? 'X' : 'O';
+    const action = {
+      type: c.ADD_MOVE,
+      squares: squaresCopy
+    };
+    dispatch(action);
   }
-
-
-
-    // const squares = props.squares.slice();
-    // if (calculateWinner(squares) || squares[i]) {
-    //   return;
-    // }
-    // squares[i] = props.xIsNext ? 'X' : 'O';
-    // this.setState({
-    //   squares: squares,
-    //   xIsNext: !props.xIsNext,
-    // });
-
-  //handleClick(i) is a method that copies the board array with the specific index i changed on click to X. This is done to maintain immutability.
-  function renderSquare(i) {
-    return (<Square
-      value={props.squares[i]}
-      onClick={()=> {handleClick(); handleClickToo(i);}}
-    />
-    );
-  }
-  //renderSquare(i) is a method which returns the value of square after the previous click.
 
   function calculateWinner() {
     const lines = [
@@ -70,12 +46,31 @@ function Board(props){
     return null;
   }
 
-  const winner = calculateWinner(props.squares);
+  const winner = calculateWinner();
   let status;
   if (winner) {
     status = 'Winner: ' + winner;
   } else {
     status = 'Next player: ' + (props.xIsNext ? 'X' : 'O');
+  }
+
+  //handleClick(i) is a method that copies the board array with the specific index i changed on click to X. This is done to maintain immutability.
+  function handleClick(i){
+    if (calculateWinner() || props.squares[i]) {
+      return;
+    } else{
+      addMove(i);
+      switchPlayer();
+    }
+  }
+
+  //renderSquare(i) is a method which returns the value of square after the previous click.
+  function renderSquare(i) {
+    return (<Square
+      value={props.squares[i]}
+      onClick={()=> handleClick(i)}
+    />
+    );
   }
 
   return (
@@ -99,5 +94,11 @@ function Board(props){
     </div>
   );
 }
+
+Board.propTypes= {
+  dispatch: PropTypes.func,
+  xIsNext: PropTypes.bool,
+  squares: PropTypes.array
+};
 
 export default connect()(Board);

@@ -8,26 +8,22 @@ class App extends React.Component{
 
   constructor(props) {
     super(props);
-    // this.state = {
-    //   xIsNext: true,
-    //   squares: []
-    // };
   }
 
   render(){
     return(
       <div>
         <Game xIsNext={this.props.xIsNext}
-        squares={this.props.squares}/>
-
+          squares={this.props.squares}/>
       </div>
     );
   }
 }
-// App.propTypes= {
-//   xIsNext: PropTypes.bool,
-//   squares: PropTypes.array
-// }
+
+App.propTypes= {
+  xIsNext: PropTypes.bool,
+  squares: PropTypes.array
+};
 
 const mapStateToProps = state => {
   return {
